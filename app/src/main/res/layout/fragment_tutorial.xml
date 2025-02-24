@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tvFinal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:fontFamily="@font/roboto_bold"
+        android:includeFontPadding="false"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="40dp"
+        android:text="Zalo"
+        android:textColor="@color/zch_blue_b55"
+        android:textSize="60sp"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivIconSplash"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:src="@drawable/splash_video_call" />
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:fontFamily="@font/roboto_bold"
+        android:gravity="center"
+        android:text="Gọi video ổn định"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_regular"
+        android:gravity="center"
+        android:paddingHorizontal="30dp"
+        android:paddingVertical="10dp"
+        android:text="Trò chuyện thật đã với chất lượng video ổn định mọi lúc, mọi nơi"
+        android:textColor="#848C94"
+        android:textSize="12sp" />
+</LinearLayout>
