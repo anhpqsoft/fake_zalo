@@ -106,6 +106,18 @@
         app:layout_constraintTop_toBottomOf="@id/edtPhone"
         tools:ignore="LabelFor" />
 
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvError"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="Mật khẩu không đúng\nVui lòng kiểm tra và thử lại.(2017)"
+        android:textColor="#DC0101"
+        android:textSize="11sp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@id/edtPassword"
+        app:layout_constraintTop_toBottomOf="@id/edtPassword" />
+
     <TextView
         android:id="@+id/tvHideOrShowPw"
         android:layout_width="wrap_content"
@@ -128,5 +140,5 @@
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintWidth_percent="0.16"
-        app:srcCompat="@drawable/icon_next_sign_in" />
+        app:srcCompat="@drawable/ic_next_default" />
 </androidx.constraintlayout.widget.ConstraintLayout>

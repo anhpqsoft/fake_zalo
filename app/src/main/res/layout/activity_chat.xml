@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -79,7 +80,20 @@
 
     </LinearLayout>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/bottom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/header"
+        app:stackFromEnd="true"
+        tools:itemCount="10"
+        tools:listitem="@layout/item_message_sent" />
+
     <LinearLayout
+        android:id="@+id/bottom"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -97,38 +111,53 @@
             app:srcCompat="@drawable/icon_emoji" />
 
         <EditText
+            android:id="@+id/edtMessage"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@android:color/transparent"
             android:hint="Tin nhắn"
+            android:imeOptions="actionSend"
             android:importantForAutofill="no"
             android:inputType="text"
             android:minHeight="40dp"
             android:paddingHorizontal="5dp"
-            android:textColor="@color/black"
+            android:textColor="@color/Dark_action_ignore_text"
             android:textColorHint="@color/Light_TextColor3" />
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginEnd="4dp"
-            android:padding="6dp"
-            app:srcCompat="@drawable/icon_more" />
+        <LinearLayout
+            android:id="@+id/layoutOptions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="4dp"
+                android:padding="6dp"
+                app:srcCompat="@drawable/icon_more" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="4dp"
+                android:padding="6dp"
+                app:srcCompat="@drawable/icon_mic" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="6dp"
+                app:srcCompat="@drawable/icon_gallery" />
+        </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btnSend"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginEnd="4dp"
-            android:padding="6dp"
-            app:srcCompat="@drawable/icon_mic" />
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginEnd="4dp"
-            android:padding="6dp"
-            app:srcCompat="@drawable/icon_gallery" />
+            android:visibility="gone"
+            app:srcCompat="@drawable/icon_send" />
 
     </LinearLayout>
 

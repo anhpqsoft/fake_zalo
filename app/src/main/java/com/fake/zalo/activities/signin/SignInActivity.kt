@@ -1,9 +1,9 @@
 package com.fake.zalo.activities.signin
 
+import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
 import android.text.method.PasswordTransformationMethod
-import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -12,7 +12,11 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import com.fake.zalo.R
+import com.fake.zalo.activities.chat.ChatActivity
 import com.fake.zalo.databinding.ActivitySigninBinding
+import com.fake.zalo.ultis.getNavigationBarHeight
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 class SignInActivity : AppCompatActivity() {
 
@@ -21,6 +25,7 @@ class SignInActivity : AppCompatActivity() {
         get() = requireNotNull(_binding)
 
     private var isShowPassword: Boolean = false
+    private var isRunningSignIn: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +37,7 @@ class SignInActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, 0, systemBars.right, systemBars.bottom)
             insets
         }
-
+        binding.ivNext.isEnabled = false
         with(binding.edtPhone) {
             setOnFocusChangeListener { v, hasFocus ->
                 backgroundTintList = if (hasFocus) {
@@ -43,6 +48,29 @@ class SignInActivity : AppCompatActivity() {
             }
             doAfterTextChanged {
                 binding.ivClear.isVisible = !it.isNullOrEmpty()
+
+                val phone = binding.edtPhone.text.toString().trim()
+                val password = binding.edtPassword.text.toString().trim()
+
+                if (phone.isNotEmpty() && password.isNotEmpty()) {
+                    binding.ivNext.isEnabled = true
+                    binding.ivNext.setImageResource(R.drawable.ic_next_active)
+                } else {
+                    binding.ivNext.isEnabled = false
+                    binding.ivNext.setImageResource(R.drawable.ic_next_default)
+                }
+            }
+        }
+        binding.edtPassword.doAfterTextChanged {
+            val phone = binding.edtPhone.text.toString().trim()
+            val password = binding.edtPassword.text.toString().trim()
+
+            if (phone.isNotEmpty() && password.isNotEmpty()) {
+                binding.ivNext.isEnabled = true
+                binding.ivNext.setImageResource(R.drawable.ic_next_active)
+            } else {
+                binding.ivNext.isEnabled = false
+                binding.ivNext.setImageResource(R.drawable.ic_next_default)
             }
         }
         binding.ivBack.setOnClickListener {
@@ -79,13 +107,58 @@ class SignInActivity : AppCompatActivity() {
             val screenHeight = binding.root.height
             val keypadHeight = screenHeight - rect.bottom
 
-            Log.d("GT45_x", "keypadHeight = $keypadHeight")
             if (keypadHeight > screenHeight * 0.15) {
-                binding.ivNext.translationY = -keypadHeight.toFloat() + 100F
+                binding.ivNext.translationY = -keypadHeight.toFloat() + getNavigationBarHeight(this, binding.root)
             } else {
                 binding.ivNext.translationY = 0f
             }
         }
+
+        binding.ivNext.setOnClickListener {
+            if (isRunningSignIn) return@setOnClickListener
+
+            binding.tvError.isVisible = false
+            val phone = binding.edtPhone.text.toString().trim()
+            val password = binding.edtPassword.text.toString().trim()
+
+            if (phone.isEmpty() || password.isEmpty()) return@setOnClickListener
+            if (phone.length < 10) {
+                isRunningSignIn = false
+                setError("Số điện thoại không hợp lệ\nVui lòng kiểm tra và thử lai.(2001)")
+                return@setOnClickListener
+            }
+            isRunningSignIn = true
+            val db = Firebase.firestore
+            db.collection("users")
+                .whereEqualTo("phone", phone)
+                .whereEqualTo("password", password)
+                .limit(1)
+                .get()
+                .addOnSuccessListener { result ->
+                    isRunningSignIn = false
+                    if (result.isEmpty) {
+                        setError("Mật khẩu không đúng\nVui lòng kiểm tra và thử lại.(2017)")
+                    } else {
+                        val id = result.documents.firstOrNull()?.id
+                        val intent = Intent(this, ChatActivity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                        intent.putExtra("current_id", id)
+                        startActivity(intent)
+                        finish()
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    isRunningSignIn = false
+                    setError("Mật khẩu không đúng\nVui lòng kiểm tra và thử lại.(2017)")
+                }
+        }
+    }
+
+    private fun setError(msg: String) {
+        binding.tvError.isVisible = true
+        binding.edtPhone.requestFocus()
+        binding.edtPhone.setSelection(binding.edtPhone.text.trim().length)
+        binding.tvError.text = msg
     }
 
     override fun onDestroy() {
