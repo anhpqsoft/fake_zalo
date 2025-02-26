@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
 import android.text.method.PasswordTransformationMethod
+import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -15,6 +16,7 @@ import com.fake.zalo.R
 import com.fake.zalo.activities.chat.ChatActivity
 import com.fake.zalo.databinding.ActivitySigninBinding
 import com.fake.zalo.ultis.getNavigationBarHeight
+import com.fake.zalo.ultis.getStatusBarHeight
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -26,6 +28,14 @@ class SignInActivity : AppCompatActivity() {
 
     private var isShowPassword: Boolean = false
     private var isRunningSignIn: Boolean = false
+
+    private val statusBarHeight: Int by lazy {
+        getStatusBarHeight(this)
+    }
+    private val navigationBarHeight: Int by lazy {
+        getNavigationBarHeight(this, binding.root)
+    }
+    private var heightStatusBar: Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -102,13 +112,19 @@ class SignInActivity : AppCompatActivity() {
         }
 
         binding.root.viewTreeObserver.addOnGlobalLayoutListener {
+            if (heightStatusBar == -1) {
+                heightStatusBar = statusBarHeight
+                Log.d("GT45_x", "height status bar = $heightStatusBar")
+                binding.header.setPadding(0, heightStatusBar, 0, 0)
+            }
+
             val rect = Rect()
             binding.root.getWindowVisibleDisplayFrame(rect)
             val screenHeight = binding.root.height
             val keypadHeight = screenHeight - rect.bottom
 
             if (keypadHeight > screenHeight * 0.15) {
-                binding.ivNext.translationY = -keypadHeight.toFloat() + getNavigationBarHeight(this, binding.root)
+                binding.ivNext.translationY = -keypadHeight.toFloat() + navigationBarHeight
             } else {
                 binding.ivNext.translationY = 0f
             }
@@ -143,6 +159,7 @@ class SignInActivity : AppCompatActivity() {
                         val intent = Intent(this, ChatActivity::class.java)
                         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                         intent.putExtra("current_id", id)
+                        intent.putExtra("phone", phone)
                         startActivity(intent)
                         finish()
                     }

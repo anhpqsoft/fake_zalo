@@ -5,16 +5,32 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvDateTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/bg_time_message"
+        android:paddingHorizontal="14dp"
+        android:paddingVertical="4dp"
+        android:text="10:20 Hôm nay"
+        android:textColor="@color/white"
+        android:textSize="11sp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvDateTime"
         app:layout_constraintWidth_default="percent"
         app:layout_constraintWidth_percent="0.8">
 
@@ -38,12 +54,12 @@
                 android:paddingTop="10dp"
                 android:paddingBottom="4dp"
                 android:textColor="@color/black"
-                android:textSize="15sp"
+                android:textSize="15.5sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="Ggg" />
+                tools:text="Tin nhắn 5" />
 
             <TextView
                 android:id="@+id/tvTime"
@@ -60,11 +76,12 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
+        android:id="@+id/layoutStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="20dp"
         android:background="@drawable/bg_status_message_send"
         android:gravity="center_vertical"
         android:orientation="horizontal"
@@ -76,21 +93,19 @@
             android:layout_width="12dp"
             android:layout_height="12dp"
             android:layout_marginStart="5dp"
-            app:srcCompat="@drawable/icon_history"
+            app:srcCompat="@drawable/ic_read"
             app:tint="@color/white" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/arial"
             android:includeFontPadding="false"
-            android:paddingVertical="6dp"
+            android:paddingVertical="4dp"
             android:paddingStart="5dp"
-            android:paddingEnd="10dp"
-            android:text="Đang gửi"
+            android:paddingEnd="8dp"
+            android:text="Đã nhận"
             android:textColor="@color/white"
-            android:textSize="10sp" />
+            android:textSize="11sp" />
     </LinearLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

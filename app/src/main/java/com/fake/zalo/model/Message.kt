@@ -7,7 +7,7 @@ data class Message(
     val senderId: String = "",
     val content: String = "",
     val images: List<String> = listOf(),
-    val type: String,
+    val type: String, // "text", "image"
     val timestamp: Long = System.currentTimeMillis()
 )
 

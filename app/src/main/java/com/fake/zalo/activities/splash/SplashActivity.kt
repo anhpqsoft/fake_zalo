@@ -1,6 +1,7 @@
 package com.fake.zalo.activities.splash
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -10,6 +11,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.viewpager2.widget.ViewPager2
 import com.fake.zalo.R
+import com.fake.zalo.activities.signin.SignInActivity
 import com.fake.zalo.databinding.ActivitySplashBinding
 import com.zhpan.indicator.enums.IndicatorSlideMode
 import com.zhpan.indicator.enums.IndicatorStyle
@@ -56,6 +58,10 @@ class SplashActivity : AppCompatActivity() {
                 binding.tvTitle.isVisible = position != 4
             }
         })
+
+        binding.btnSignIn.setOnClickListener {
+            startActivity(Intent(this, SignInActivity::class.java))
+        }
 
         val adapter = TutorialAdapter(this)
         binding.viewPager.adapter = adapter
